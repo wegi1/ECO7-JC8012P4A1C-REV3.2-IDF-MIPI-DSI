@@ -18,6 +18,9 @@
 #include "esp_http_client.h"
 #include "wifi_portal.hpp"
 
+#include "nvs_flash.h"
+#include "nvs.h"
+
 extern "C"
 {
 #include "rx8025t.h"
@@ -38,6 +41,65 @@ static EventGroupHandle_t s_wifi_event_group = NULL;
 static bool s_wifi_stack_initialized = false;
 static volatile bool s_sync_in_progress = false;
 static volatile bool s_weather_in_progress = false;
+
+extern "C"
+{
+#include "esp_hosted.h"
+}
+
+extern const uint8_t c6_fw_start[] asm("_binary_c6_fw_bin_start");
+extern const uint8_t c6_fw_end[] asm("_binary_c6_fw_bin_end");
+
+static void auto_upgrade_c6_if_needed(void)
+{
+    esp_hosted_coprocessor_fwver_t ver = {};
+    if (esp_hosted_get_coprocessor_fwversion(&ver) == ESP_OK && ver.major1 < 3)
+    {
+        FILE *f = fopen("/spiffs/c6_fw.bin", "rb");
+        if (!f)
+        {
+            ESP_LOGE(TAG, "Brak pliku /spiffs/c6_fw.bin!");
+            return;
+        }
+        ESP_LOGW(TAG, "Wykryto starsze FW C6 (%lu.%lu.%lu). Aktualizuje ze SPIFFS...", ver.major1, ver.minor1, ver.patch1);
+
+        uint8_t *buf = (uint8_t *)heap_caps_malloc(1024, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+        if (!buf)
+        {
+            fclose(f);
+            return;
+        }
+
+        if (esp_hosted_slave_ota_begin() == ESP_OK)
+        {
+            bool ok = true;
+            size_t n = 0;
+            while ((n = fread(buf, 1, 1024, f)) > 0)
+            {
+                if (esp_hosted_slave_ota_write(buf, n) != ESP_OK)
+                {
+                    ok = false;
+                    break;
+                }
+            }
+            if (ok && esp_hosted_slave_ota_end() == ESP_OK && esp_hosted_slave_ota_activate() == ESP_OK)
+            {
+                ESP_LOGI(TAG, "SUKCES! C6 zaktualizowane do 3.1.0! Czekam na restart...");
+                vTaskDelay(pdMS_TO_TICKS(3000));
+            }
+            else
+            {
+                ESP_LOGE(TAG, "Blad podczas wysylania paczek OTA do C6!");
+            }
+        }
+        else
+        {
+            ESP_LOGE(TAG, "esp_hosted_slave_ota_begin() odrzucone przez stary C6 2.x!");
+        }
+        free(buf);
+        fclose(f);
+    }
+}
 
 bool is_weather_fetch_running(void)
 {
@@ -340,6 +402,7 @@ bool ensure_wifi_stack_initialized(void)
             ESP_LOGE(TAG, "Blad esp_wifi_init: %s", esp_err_to_name(err));
             return false;
         }
+        auto_upgrade_c6_if_needed();
 
         s_wifi_stack_initialized = true;
     }
@@ -348,9 +411,6 @@ bool ensure_wifi_stack_initialized(void)
 
 static char s_weather_rx_buf[1024];
 static int s_weather_rx_len = 0;
-
-#include "nvs_flash.h"
-#include "nvs.h"
 
 const LocationPreset LOCATIONS[3] = {
     //                   setenv("TZ", "CET-1CEST,M3.5.0,M10.5.0/3", 1);
