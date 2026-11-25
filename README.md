@@ -6,6 +6,10 @@
 
 ## 🇺🇸 English Version
 
+> **ℹ️ Note – ECO7 Version (10") with ESP32-C6 Auto-Upgrade (`C6-AUTO-UPGRADE`)**
+> This branch is intended for the 10-inch **Guition JC8012P4A1C (800×1280)** board featuring the **ESP32-P4 v3.2 (ECO7)** silicon revision and includes automatic firmware upgrade support for the **ESP32-C6** Wi-Fi/BLE coprocessor directly from SPIFFS (`/spiffs/c6_fw.bin`) over the SDIO bus.
+
+
 A low-level, highly optimized framework for a vector clock, TrueType font rendering, and both automatic and manual NTP time synchronization designed for the ESP32-P4 (Silicon Revision v3.2 / ECO7 @ 400 MHz) paired with an 800x1280 MIPI-DSI display (Portrait, 80 MHz DSI clock / 60 Hz refresh rate). Networking and coprocessor tasks are offloaded to the ESP32-C6 via a high-speed hardware SDIO bus.
 
 ### 🛠️ Important Instructions Before First Compilation
@@ -36,7 +40,7 @@ OR
   spiffs_create_partition_image(storage "\${CMAKE_CURRENT_LIST_DIR}/../FOTOS" FLASH_IN_PROJECT)
 
 Create a plain text file named "prefs.ini" inside the FOTOS folder containing two lines: your Wi-Fi SSID on the first line and your password on the second line.
-* Compile and flash the device. Once the device boots up for the first time and successfully commits the data to SPIFFS, **comment this line out again** in manin/CmakeLists.txt file [#spiffs_create_partition_image(storage "\${CMAKE_CURRENT_LIST_DIR}/../FOTOS" FLASH_IN_PROJECT)] to avoid redundant Flash cell overwrites on subsequent flashing.
+* Compile and flash the device. Once the device boots up for the first time and successfully commits the data to SPIFFS, **comment this line out again** in main/CmakeLists.txt file [#spiffs_create_partition_image(storage "\${CMAKE_CURRENT_LIST_DIR}/../FOTOS" FLASH_IN_PROJECT)] to avoid redundant Flash cell overwrites on subsequent flashing.
 #### ⚙️ Build Optimization Recommendations
 
 * **Compiler Optimization (`-O2`):** This project is configured and built with full performance optimization (**`-O2`**, `CONFIG_COMPILER_OPTIMIZATION_PERF=y` in `sdkconfig.defaults`). Any earlier flickering or visual artifacts under `-O2` have been completely eliminated thanks to full hardware-synchronized **double buffering** (`flush_screen_vsync`).
@@ -58,6 +62,9 @@ Create a plain text file named "prefs.ini" inside the FOTOS folder containing tw
 
 ---
 ## 🇵🇱 Wersja Polska
+
+> **ℹ️ Uwaga – Wersja ECO7 (10") z aktualizacją ESP32-C6 (`C6-AUTO-UPGRADE`)**
+> Ten branch jest przeznaczony dla 10-calowej płytki **Guition JC8012P4A1C (800×1280)** w rewizji krzemu **ESP32-P4 v3.2 (ECO7)** i zawiera funkcję automatycznej aktualizacji firmware'u koprocesora Wi-Fi/BLE **ESP32-C6** bezpośrednio ze SPIFFS (`/spiffs/c6_fw.bin`) po magistrali SDIO.
 
 Zoptymalizowany system operacyjny zegara wektorowego, renderowania grafiki TrueType oraz synchronizacji NTP dla ESP32-P4 (v3.2/ECO7 @ 400 MHz) z ekranem MIPI-DSI 800x1280 (60 Hz). Łącznością i koprocesorem zarządza układ ESP32-C6 przez magistralę SDIO.
 
