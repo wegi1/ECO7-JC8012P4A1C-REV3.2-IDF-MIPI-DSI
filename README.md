@@ -36,7 +36,7 @@ OR
   spiffs_create_partition_image(storage "\${CMAKE_CURRENT_LIST_DIR}/../FOTOS" FLASH_IN_PROJECT)
 
 Create a plain text file named "prefs.ini" inside the FOTOS folder containing two lines: your Wi-Fi SSID on the first line and your password on the second line.
-* Compile and flash the device. Once the device boots up for the first time and successfully commits the data to SPIFFS, **comment this line out again** in manin/CmakeLists.txt file [#spiffs_create_partition_image(storage "\${CMAKE_CURRENT_LIST_DIR}/../FOTOS" FLASH_IN_PROJECT)] to avoid redundant Flash cell overwrites on subsequent flashing.
+* Compile and flash the device. Once the device boots up for the first time and successfully commits the data to SPIFFS, **comment this line out again** in main/CmakeLists.txt file [#spiffs_create_partition_image(storage "\${CMAKE_CURRENT_LIST_DIR}/../FOTOS" FLASH_IN_PROJECT)] to avoid redundant Flash cell overwrites on subsequent flashing.
 #### ⚙️ Build Optimization Recommendations
 
 * **Compiler Optimization (`-O2`):** This project is configured and built with full performance optimization (**`-O2`**, `CONFIG_COMPILER_OPTIMIZATION_PERF=y` in `sdkconfig.defaults`). Any earlier flickering or visual artifacts under `-O2` have been completely eliminated thanks to full hardware-synchronized **double buffering** (`flush_screen_vsync`).

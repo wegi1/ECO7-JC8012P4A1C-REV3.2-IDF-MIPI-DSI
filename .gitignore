@@ -76,3 +76,5 @@ Desktop.ini
 *.workspace # General workspace files, can be from various tools
 *.suo       # Visual Studio Solution User Options
 *.sln.docstates # Visual Studio
+# Wyjątek dla firmware koprocesora ESP32-C6 w partycji SPIFFS (FOTOS)
+!FOTOS/c6_fw.bin
