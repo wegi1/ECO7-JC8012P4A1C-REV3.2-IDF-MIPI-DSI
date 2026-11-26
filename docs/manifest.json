@@ -1,0 +1,16 @@
+{
+  "name": "ESP32-P4 Vector Clock",
+  "version": "1.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-P4",
+      "parts": [
+        {
+          "path": "ECO7_JC8012P4A1_full_firmware.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

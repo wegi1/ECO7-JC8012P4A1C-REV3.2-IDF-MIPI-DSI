@@ -1,5 +1,10 @@
 ![Screenshot](/PICTURES/00.jpg) 
 ![Screenshot](/PICTURES/01.jpg) 
+
+> ### ⚡ 1-Click Web Flasher / Szybkie wgrywanie przez przeglądarkę
+> 👉 **[Launch Web Flasher (Chrome / Edge)](https://wegi1.github.io/ECO7-JC8012P4A1C-REV3.2-IDF-MIPI-DSI/)** — Flash your **ESP32-P4** board directly via USB without compiling!  
+> 👉 **[Otwórz Web Flasher (Chrome / Edge)](https://wegi1.github.io/ECO7-JC8012P4A1C-REV3.2-IDF-MIPI-DSI/)** — Wgraj gotowy firmware na płytkę **ESP32-P4** bezpośrednio przez USB bez kompilacji!
+
 # Project JC8012P4A1C (ECO7 / Rev. 3.2) - ESP32-P4 Clock Panel (MIPI-DSI & ESP32-C6)
 
 ---

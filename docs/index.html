@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ESP32-P4 Vector Clock</title>
+  <script type="module">
+    const domain = "unpkg" + ".com";
+    const file = "/esp-web-tools@10/dist/web/install-button.js?module";
+    import("https://" + domain + file);
+  </script>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #121212; color: #f0f0f0; font-family: sans-serif; text-align: center; }
+    .box { max-width: 560px; padding: 28px; }
+    h1 { font-size: 32px; margin-bottom: 16px; }
+    p { color: #ccc; line-height: 1.5; margin-bottom: 28px; }
+    esp-web-install-button { display: block; width: 100%; max-width: 380px; margin: 16px auto; }
+    .big-btn { width: 100%; padding: 20px 24px; font-size: 20px; font-weight: bold; color: #fff; background: #03a9f4; border: none; border-radius: 8px; cursor: pointer; }
+    .info { color: #999; font-size: 14px; line-height: 1.6; margin-top: 32px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>ESP32-P4 Vector Clock</h1>
+    <p>Podłącz płytkę przez USB i wybierz port (Chrome / Edge).<br>Connect your board via USB and select the port (Chrome / Edge).</p>
+    <esp-web-install-button manifest="./manifest.json" baudrate="921600">
+      <button slot="activate" class="big-btn">INSTALL / ZAINSTALUJ</button>
+    </esp-web-install-button>
+    <div class="info">Po wgraniu połącz się z Wi-Fi <b>ESP32-CLOCK-SETUP</b> i otwórz <b>192.168.4.1</b><br>After flashing, connect to Wi-Fi <b>ESP32-CLOCK-SETUP</b> and open <b>192.168.4.1</b></div>
+  </div>
+</body>
+</html>
